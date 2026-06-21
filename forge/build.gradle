@@ -2,6 +2,12 @@ plugins {
     id 'com.gradleup.shadow'
 }
 
+loom {
+    forge {
+        mixinConfig "plaguesretouchbrush.mixins.json"
+    }
+}
+
 architectury {
     platformSetupLoomIde()
     forge()
