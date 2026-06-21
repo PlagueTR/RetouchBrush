@@ -1,0 +1,27 @@
+modLoader = "javafml"
+loaderVersion = "${forge_loader_version}"
+license = "${mod_license}"
+
+[[mods]]
+modId = "plaguesretouchbrush"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_author}"
+description = '''
+${mod_desc}
+'''
+logoFile = "icon.png"
+
+[[dependencies.plaguesretouchbrush]]
+modId = "forge"
+mandatory = true
+versionRange = "${forge_loader_version}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.plaguesretouchbrush]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[${minecraft_version},)"
+ordering = "NONE"
+side = "BOTH"
