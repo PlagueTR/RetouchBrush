@@ -91,6 +91,10 @@ modrinth {
     changelog = "${rootProject.changelog}"
 }
 
+tasks.named('modrinthSyncBody') {
+    group = null
+}
+
 tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
     group "publishing"
 

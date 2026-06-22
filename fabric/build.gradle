@@ -87,8 +87,6 @@ remapJar {
     inputFile.set shadowJar.archiveFile
 }
 
-tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
-
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "retouch-brush"
@@ -101,8 +99,10 @@ modrinth {
         optional.project("cloth-config")
     }
     changelog = "${rootProject.changelog}"
+}
 
-    syncBodyFrom = rootProject.file("README.md").text
+tasks.named('modrinthSyncBody') {
+    group = null
 }
 
 tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {

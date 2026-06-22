@@ -1,0 +1,25 @@
+name: Sync README to Modrinth and CurseForge
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sync-descriptions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update Modrinth Description
+        run: |
+          curl -X PATCH "https://modrinth.com{{ secrets.MODRINTH_ID }}" \
+            -H "Authorization: ${{ secrets.MODRINTH_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": $(jq -Rs . README.md)}"
+
+      - name: Update CurseForge Description
+        uses: itsmeow/curseforge-description-sync-action@v1
+        with:
+          token: ${{ secrets.CURSEFORGE_TOKEN }}
+          id: ${{ secrets.CURSEFORGE_ID }}
+          body_file: 'README.md'

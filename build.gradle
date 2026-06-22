@@ -59,7 +59,7 @@ githubRelease {
 	owner = "PlagueTR"
 	repo = "RetouchBrush"
 	tagName = "${rootProject.mod_version}+${rootProject.minecraft_version}"
-	targetCommitish = "architectury26.2"
+	targetCommitish = "${rootProject.branch}"
 	releaseName = "Retouch Brush v${rootProject.mod_version}+${rootProject.minecraft_version}"
 	body = "${rootProject.changelog}"
 
@@ -67,4 +67,31 @@ githubRelease {
 			project(':fabric').tasks.named('remapJar'),
 			project(':forge').tasks.named('remapJar')
 	)
+}
+
+tasks.register('syncReadme') {
+	group "publishing"
+
+	doLast {
+		def token = System.getenv("GITHUB_TOKEN")
+		def owner = "PlagueTR"
+		def repo = "RetouchBrush"
+		def branch = "${rootProject.branch}"
+
+		def jsonPayload = "{\"ref\":\"${branch}\"}"
+
+		def process = ["curl", "-s", "-X", "POST",
+		               "https://github.com/${owner}/${repo}/actions/workflows/sync-readme.yml/dispatches",
+		               "-H", "Authorization: Bearer ${token}",
+		               "-H", "Accept: application/vnd.github+json",
+		               "-H", "X-GitHub-Api-Version: 2022-11-28",
+		               "-d", jsonPayload].execute()
+		process.waitFor()
+		if (process.exitValue() == 0) {
+			println("Success")
+		}
+		else {
+			println("Failed, Response: ${process.text}")
+		}
+	}
 }
