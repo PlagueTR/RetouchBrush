@@ -6,26 +6,32 @@ public class ModConfig {
 
     private boolean enableMod;
 
-    private String cycleTo;
-
-    private boolean keepSize;
+    private boolean enableUseBehavior;
 
     private boolean enableDispenserBehavior;
 
-    private boolean enableRightClickBehavior;
+    private String cycleToUse;
+
+    private String cycleToDispenser;
+
+    private boolean keepSizeUse;
+
+    private boolean keepSizeDispenser;
 
     private boolean enableUseDamage;
 
-    private boolean enableDispenserUseDamage;
+    private boolean enableDispenserDamage;
 
     public ModConfig() {
         this.enableMod = true;
-        this.cycleTo = PaintingCycleUtil.CycleTo.NEXT.getCode();
-        this.keepSize = true;
+        this.cycleToUse = PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode();
+        this.cycleToDispenser = PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode();
+        this.keepSizeUse = true;
+        this.keepSizeDispenser = true;
+        this.enableUseBehavior = true;
         this.enableDispenserBehavior = true;
-        this.enableRightClickBehavior = true;
         this.enableUseDamage = false;
-        this.enableDispenserUseDamage = false;
+        this.enableDispenserDamage = false;
     }
 
     public boolean isEnableMod() {
@@ -36,20 +42,13 @@ public class ModConfig {
         this.enableMod = enableMod;
     }
 
-    public String getCycleTo() {
-        return cycleTo;
+
+    public boolean isEnableUseBehavior() {
+        return enableUseBehavior;
     }
 
-    public void setCycleTo(String cycleTo) {
-        this.cycleTo = cycleTo;
-    }
-
-    public boolean isKeepSize() {
-        return keepSize;
-    }
-
-    public void setKeepSize(boolean keepSize) {
-        this.keepSize = keepSize;
+    public void setEnableUseBehavior(boolean enableUseBehavior) {
+        this.enableUseBehavior = enableUseBehavior;
     }
 
     public boolean isEnableDispenserBehavior() {
@@ -60,12 +59,36 @@ public class ModConfig {
         this.enableDispenserBehavior = enableDispenserBehavior;
     }
 
-    public boolean isEnableRightClickBehavior() {
-        return enableRightClickBehavior;
+    public String getCycleToUse() {
+        return cycleToUse;
     }
 
-    public void setEnableRightClickBehavior(boolean enableRightClickBehavior) {
-        this.enableRightClickBehavior = enableRightClickBehavior;
+    public void setCycleToUse(String cycleToUse) {
+        this.cycleToUse = cycleToUse;
+    }
+
+    public String getCycleToDispenser() {
+        return cycleToDispenser;
+    }
+
+    public void setCycleToDispenser(String cycleToDispenser) {
+        this.cycleToDispenser = cycleToDispenser;
+    }
+
+    public boolean isKeepSizeUse() {
+        return keepSizeUse;
+    }
+
+    public void setKeepSizeUse(boolean keepSizeUse) {
+        this.keepSizeUse = keepSizeUse;
+    }
+
+    public boolean isKeepSizeDispenser() {
+        return keepSizeDispenser;
+    }
+
+    public void setKeepSizeDispenser(boolean keepSizeDispenser) {
+        this.keepSizeDispenser = keepSizeDispenser;
     }
 
     public boolean isEnableUseDamage() {
@@ -76,11 +99,11 @@ public class ModConfig {
         this.enableUseDamage = enableUseDamage;
     }
 
-    public boolean isEnableDispenserUseDamage() {
-        return enableDispenserUseDamage;
+    public boolean isEnableDispenserDamage() {
+        return enableDispenserDamage;
     }
 
-    public void setEnableDispenserUseDamage(boolean enableDispenserUseDamage) {
-        this.enableDispenserUseDamage = enableDispenserUseDamage;
+    public void setEnableDispenserDamage(boolean enableDispenserDamage) {
+        this.enableDispenserDamage = enableDispenserDamage;
     }
 }

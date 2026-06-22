@@ -55,7 +55,7 @@ public class MixinServerGamePacketListener {
                 }
 
                 ModConfig config = Main.getConfig();
-                if (!config.isEnableMod() || !config.isEnableRightClickBehavior()) {
+                if (!config.isEnableMod() || !config.isEnableUseBehavior()) {
                     return;
                 }
 
@@ -66,13 +66,15 @@ public class MixinServerGamePacketListener {
 
                 PaintingCycleUtil.CycleTo mode;
                 try {
-                    mode = PaintingCycleUtil.CycleTo.valueOf(config.getCycleTo());
+                    mode = PaintingCycleUtil.CycleTo.valueOf(config.getCycleToUse());
                 } catch (IllegalArgumentException e) {
-                    config.setCycleTo(PaintingCycleUtil.CycleTo.NEXT.getCode());
-                    mode = PaintingCycleUtil.CycleTo.NEXT;
+                    Main.LOGGER.warn("[" + Main.MOD_NAME + "] Invalid painting use cycle to: " + config.getCycleToUse());
+                    Main.LOGGER.info("[" + Main.MOD_NAME + "] Setting painting use cycle to: " + PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode());
+                    config.setCycleToUse(PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode());
+                    mode = PaintingCycleUtil.CycleTo.SEQUENTIAL;
                 }
 
-                boolean success = PaintingCycleUtil.cyclePainting(painting, player.level(), mode, config.isKeepSize());
+                boolean success = PaintingCycleUtil.cyclePainting(painting, player.level(), mode, config.isKeepSizeUse());
                 if (!success) {
                     ci.cancel();
                     return;

@@ -14,7 +14,7 @@ import java.util.List;
 public class PaintingCycleUtil {
 
     public enum CycleTo {
-        NEXT("NEXT"),
+        SEQUENTIAL("SEQUENTIAL"),
         RANDOM("RANDOM");
 
         private final String code;
@@ -57,7 +57,7 @@ public class PaintingCycleUtil {
 
         Holder<PaintingVariant> nextVariant;
 
-        if (cycleTo == CycleTo.NEXT) {
+        if (cycleTo == CycleTo.SEQUENTIAL) {
             int currentIndex = -1;
             for (int i = 0; i < variants.size(); i++) {
                 if (variants.get(i).key().equals(currentVariant.unwrapKey().orElse(null))) {
@@ -68,7 +68,7 @@ public class PaintingCycleUtil {
             int nextIndex = (currentIndex + 1) % variants.size();
             nextVariant = variants.get(nextIndex);
         }
-        else {
+        else if (cycleTo == CycleTo.RANDOM) {
             List<Holder.Reference<PaintingVariant>> otherVariants = variants.stream()
                     .filter(holder -> !holder.value().equals(currentVariant.value()))
                     .toList();
@@ -80,6 +80,9 @@ public class PaintingCycleUtil {
             RandomSource rand = level.getRandom();
             int randomIndex = rand.nextInt(otherVariants.size());
             nextVariant = otherVariants.get(randomIndex);
+        }
+        else {
+            return false;
         }
 
         painting.setVariant(nextVariant);

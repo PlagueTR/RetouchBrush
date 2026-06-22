@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -12,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.phys.AABB;
 
+import org.jetbrains.annotations.NotNull;
 import space.plague.retouchbrush.Main;
 import space.plague.retouchbrush.config.ModConfig;
 import space.plague.retouchbrush.util.PaintingCycleUtil;
@@ -22,7 +22,7 @@ public class DispenserBehavior {
 
         DispenserBlock.registerBehavior(Items.BRUSH, new OptionalDispenseItemBehavior() {
             @Override
-            protected ItemStack execute(BlockSource source, ItemStack stack) {
+            protected @NotNull ItemStack execute(BlockSource source, ItemStack stack) {
 
                 ModConfig config =  Main.getConfig();
 
@@ -44,24 +44,24 @@ public class DispenserBehavior {
 
                     PaintingCycleUtil.CycleTo mode;
                     try {
-                        mode = PaintingCycleUtil.CycleTo.valueOf(config.getCycleTo());
+                        mode = PaintingCycleUtil.CycleTo.valueOf(config.getCycleToDispenser());
                     }
                     catch (IllegalArgumentException e) {
-                        LOGGER.warn("[" + Main.MOD_NAME + "] Invalid painting cycle to: " + config.getCycleTo());
-                        LOGGER.info("[" + Main.MOD_NAME + "] Setting painting cycle to: " + PaintingCycleUtil.CycleTo.NEXT.getCode());
-                        config.setCycleTo(PaintingCycleUtil.CycleTo.NEXT.getCode());
-                        mode = PaintingCycleUtil.CycleTo.NEXT;
+                        LOGGER.warn("[" + Main.MOD_NAME + "] Invalid painting dispenser cycle to: " + config.getCycleToDispenser());
+                        LOGGER.info("[" + Main.MOD_NAME + "] Setting painting dispenser cycle to: " + PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode());
+                        config.setCycleToDispenser(PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode());
+                        mode = PaintingCycleUtil.CycleTo.SEQUENTIAL;
                     }
 
-                    boolean success = PaintingCycleUtil.cyclePainting(targetPainting, level, mode, config.isKeepSize());
+                    boolean success = PaintingCycleUtil.cyclePainting(targetPainting, level, mode, config.isKeepSizeDispenser());
 
                     if (!success) {
                         this.setSuccess(false);
                         return super.execute(source, stack);
                     }
 
-                    if (config.isEnableDispenserUseDamage()) {
-                        stack.hurt(1, level.random, (ServerPlayer)null);
+                    if (config.isEnableDispenserDamage()) {
+                        stack.hurt(1, level.random, null);
                         if (stack.getDamageValue() >= stack.getMaxDamage()) {
                             stack.shrink(1);
                         }

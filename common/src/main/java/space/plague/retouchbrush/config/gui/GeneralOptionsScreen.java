@@ -34,31 +34,26 @@ public class GeneralOptionsScreen {
                 .build());
 
         String[] options = new String[] {
-                PaintingCycleUtil.CycleTo.NEXT.getCode(),
+                PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode(),
                 PaintingCycleUtil.CycleTo.RANDOM.getCode()
         };
-        general.addEntry(entryBuilder.startSelector(Component.literal("Painting Cycle Mode"), options, Main.getConfig().getCycleTo())
-                .setDefaultValue(defaults.getCycleTo())
-                .setTooltip(Component.literal("Determines if the brush cycles through paintings sequentially or randomly."))
-                .setSaveConsumer(newValue -> { Main.getConfig().setCycleTo(newValue); })
-                .build());
 
-        general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Match Same Size Only"), Main.getConfig().isKeepSize())
-                .setDefaultValue(defaults.isKeepSize())
-                .setTooltip(Component.literal("If enabled, the brush will only cycle through paintings that share the exact same dimensions."))
-                .setSaveConsumer(newValue -> { Main.getConfig().setKeepSize(newValue); })
-                .build());
-
-        general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Enable Dispenser Usage"), Main.getConfig().isEnableDispenserBehavior())
-                .setDefaultValue(defaults.isEnableDispenserBehavior())
-                .setTooltip(Component.literal("Allows dispensers to use the brush on a painting."))
-                .setSaveConsumer(newValue -> { Main.getConfig().setEnableDispenserBehavior(newValue); })
-                .build());
-
-        general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Enable Player Usage"), Main.getConfig().isEnableRightClickBehavior())
-                .setDefaultValue(defaults.isEnableRightClickBehavior())
+        general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Enable Player Usage"), Main.getConfig().isEnableUseBehavior())
+                .setDefaultValue(defaults.isEnableUseBehavior())
                 .setTooltip(Component.literal("Allows players to manually use the brush on a painting."))
-                .setSaveConsumer(newValue -> { Main.getConfig().setEnableRightClickBehavior(newValue); })
+                .setSaveConsumer(newValue -> { Main.getConfig().setEnableUseBehavior(newValue); })
+                .build());
+
+        general.addEntry(entryBuilder.startSelector(Component.literal("Player Painting Cycle Mode"), options, Main.getConfig().getCycleToUse())
+                .setDefaultValue(defaults.getCycleToUse())
+                .setTooltip(Component.literal("Determines if the brush cycles through paintings sequentially or randomly when used by players."))
+                .setSaveConsumer(newValue -> { Main.getConfig().setCycleToUse(newValue); })
+                .build());
+
+        general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Player Same Size Painting"), Main.getConfig().isKeepSizeUse())
+                .setDefaultValue(defaults.isKeepSizeUse())
+                .setTooltip(Component.literal("If enabled, player usage will only cycle through paintings that share the exact same dimensions."))
+                .setSaveConsumer(newValue -> { Main.getConfig().setKeepSizeUse(newValue); })
                 .build());
 
         general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Player Use Damages Tool"), Main.getConfig().isEnableUseDamage())
@@ -67,10 +62,28 @@ public class GeneralOptionsScreen {
                 .setSaveConsumer(newValue -> { Main.getConfig().setEnableUseDamage(newValue); })
                 .build());
 
-        general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Dispenser  Use Damages Tool"), Main.getConfig().isEnableDispenserUseDamage())
-                .setDefaultValue(defaults.isEnableDispenserUseDamage())
+        general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Enable Dispenser Usage"), Main.getConfig().isEnableDispenserBehavior())
+                .setDefaultValue(defaults.isEnableDispenserBehavior())
+                .setTooltip(Component.literal("Allows dispensers to use the brush on a painting."))
+                .setSaveConsumer(newValue -> { Main.getConfig().setEnableDispenserBehavior(newValue); })
+                .build());
+
+        general.addEntry(entryBuilder.startSelector(Component.literal("Dispenser Painting Cycle Mode"), options, Main.getConfig().getCycleToDispenser())
+                .setDefaultValue(defaults.getCycleToDispenser())
+                .setTooltip(Component.literal("Determines if the brush cycles through paintings sequentially or randomly inside a dispenser."))
+                .setSaveConsumer(newValue -> { Main.getConfig().setCycleToDispenser(newValue); })
+                .build());
+
+        general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Dispenser Same Size Painting"), Main.getConfig().isKeepSizeDispenser())
+                .setDefaultValue(defaults.isKeepSizeDispenser())
+                .setTooltip(Component.literal("If enabled, dispenser usage will only cycle through paintings that share the exact same dimensions."))
+                .setSaveConsumer(newValue -> { Main.getConfig().setKeepSizeDispenser(newValue); })
+                .build());
+
+        general.addEntry(entryBuilder.startBooleanToggle(Component.literal("Dispenser Use Damages Tool"), Main.getConfig().isEnableDispenserDamage())
+                .setDefaultValue(defaults.isEnableDispenserDamage())
                 .setTooltip(Component.literal("Reduces brush durability when triggered automatically inside a dispenser."))
-                .setSaveConsumer(newValue -> { Main.getConfig().setEnableDispenserUseDamage(newValue); })
+                .setSaveConsumer(newValue -> { Main.getConfig().setEnableDispenserDamage(newValue); })
                 .build());
 
         builder.transparentBackground();
