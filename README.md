@@ -1,8 +1,8 @@
 # Retouch Brush
 
-![License](https://img.shields.io/badge/License-MIT%20License-green?style=for-the-badge&link=https%3A%2F%2Fraw.githubusercontent.com%2FPlagueTR%2FRetouchBrush%2Frefs%2Fheads%2Farchitectury26.2%2FLICENSE)
+[![License](https://img.shields.io/badge/License-MIT%20License-green?style=for-the-badge)](https://raw.githubusercontent.com/PlagueTR/RetouchBrush/refs/heads/architectury26.2/LICENSE)
 ![Environment](https://img.shields.io/badge/Environment-Server-blue?style=for-the-badge)
-![Ko-Fi](https://img.shields.io/badge/BUY%20ME%20A%20COFFEE-limegreen?style=for-the-badge&logo=kofi&logoColor=white&logoSize=auto&link=https%3A%2F%2Fko-fi.com%2Fplaguetr)
+[![Ko-Fi](https://img.shields.io/badge/BUY%20ME%20A%20COFFEE-limegreen?style=for-the-badge&logo=kofi&logoColor=white&logoSize=auto)](https://ko-fi.com/plaguetr)
 
 A server-side Minecraft mod that lets you cycle through paintings using the brush!
 

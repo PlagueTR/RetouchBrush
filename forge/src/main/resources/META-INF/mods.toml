@@ -22,6 +22,6 @@ side = "BOTH"
 [[dependencies.plaguesretouchbrush]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[${minecraft_version},)"
+versionRange = "[${minecraft_version}]"
 ordering = "NONE"
 side = "BOTH"
