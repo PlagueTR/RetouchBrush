@@ -2,6 +2,9 @@ plugins {
 	id 'dev.architectury.loom' version "${architectury_loom_version}" apply false
 	id 'architectury-plugin' version "${architectury_plugin_version}"
 	id 'com.gradleup.shadow' version "${shadow_version}" apply false
+	id 'com.github.breadmoirai.github-release' version "${github_release_version}"
+	id 'com.modrinth.minotaur' version "${minotaur_version}" apply false
+	id 'net.darkhax.curseforgegradle' version "${curseforge_gradle_version}" apply false
 }
 
 architectury {
@@ -49,4 +52,19 @@ subprojects {
 
 		executable = launcher.executablePath.asFile.absolutePath
 	}
+}
+
+githubRelease {
+	token = System.getenv("GITHUB_TOKEN")
+	owner = "PlagueTR"
+	repo = "RetouchBrush"
+	tagName = "${rootProject.mod_version}+${rootProject.minecraft_version}"
+	targetCommitish = "architectury26.2"
+	releaseName = "Retouch Brush v${rootProject.mod_version}+${rootProject.minecraft_version}"
+	body = "${rootProject.changelog}"
+
+	releaseAssets = files(
+			project(':fabric').tasks.named('remapJar'),
+			project(':forge').tasks.named('remapJar')
+	)
 }

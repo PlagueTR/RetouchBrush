@@ -1,5 +1,7 @@
 plugins {
     id 'com.gradleup.shadow'
+    id 'com.modrinth.minotaur'
+    id 'net.darkhax.curseforgegradle'
 }
 
 loom {
@@ -74,4 +76,33 @@ shadowJar {
 
 remapJar {
     inputFile.set shadowJar.archiveFile
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "retouch-brush"
+    versionNumber = "${rootProject.mod_version}+${rootProject.minecraft_version}-Forge"
+    uploadFile = remapJar
+    gameVersions = ["${rootProject.minecraft_version}"]
+    loaders = ["forge"]
+    dependencies {
+        optional.project("cloth-config")
+    }
+    changelog = "${rootProject.changelog}"
+}
+
+tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+    group "publishing"
+
+    apiToken = System.getenv("CURSEFORGE_TOKEN")
+
+    def mainFile = upload(1583979, remapJar)
+    mainFile.displayName = "${rootProject.mod_version}+${rootProject.minecraft_version}-Forge"
+    mainFile.changelog = "${rootProject.changelog}"
+    mainFile.changelogType = "markdown"
+    mainFile.releaseType = net.darkhax.curseforgegradle.Constants.RELEASE_TYPE_RELEASE
+    mainFile.addGameVersion("${rootProject.minecraft_version}")
+    mainFile.addModLoader("Forge")
+
+    mainFile.addOptional("cloth-config")
 }

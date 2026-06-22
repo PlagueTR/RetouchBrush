@@ -1,5 +1,7 @@
 plugins {
     id 'com.gradleup.shadow'
+    id 'com.modrinth.minotaur'
+    id 'net.darkhax.curseforgegradle'
 }
 
 architectury {
@@ -83,4 +85,40 @@ shadowJar {
 
 remapJar {
     inputFile.set shadowJar.archiveFile
+}
+
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "retouch-brush"
+    versionNumber = "${rootProject.mod_version}+${rootProject.minecraft_version}-Fabric"
+    uploadFile = remapJar
+    gameVersions = ["${rootProject.minecraft_version}"]
+    loaders = ["fabric", "quilt"]
+    dependencies {
+        optional.project("modmenu")
+        optional.project("cloth-config")
+    }
+    changelog = "${rootProject.changelog}"
+
+    syncBodyFrom = rootProject.file("README.md").text
+}
+
+tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+    group "publishing"
+
+    apiToken = System.getenv("CURSEFORGE_TOKEN")
+
+    def mainFile = upload(1583979, remapJar)
+    mainFile.displayName = "${rootProject.mod_version}+${rootProject.minecraft_version}-Fabric"
+    mainFile.changelog = "${rootProject.changelog}"
+    mainFile.changelogType = "markdown"
+    mainFile.releaseType = net.darkhax.curseforgegradle.Constants.RELEASE_TYPE_RELEASE
+    mainFile.addGameVersion("${rootProject.minecraft_version}")
+    mainFile.addModLoader("Fabric")
+    mainFile.addModLoader("Quilt")
+
+    mainFile.addOptional("modmenu")
+    mainFile.addOptional("cloth-config")
 }
