@@ -4,7 +4,6 @@
 ![Environment](https://img.shields.io/badge/Environment-Server-blue?style=for-the-badge)
 ![Ko-Fi](https://img.shields.io/badge/BUY%20ME%20A%20COFFEE-limegreen?style=for-the-badge&logo=kofi&logoColor=white&logoSize=auto&link=https%3A%2F%2Fko-fi.com%2Fplaguetr)
 
-
 A server-side Minecraft mod that lets you cycle through paintings using the brush!
 
 ## 📖 What is this mod?
@@ -19,9 +18,11 @@ You can even make a functioning TV using dispensers
 
 Here is a little showcase!
 
-```
-TODO: Add something here i guess
-```
+![Player Use](https://raw.githubusercontent.com/PlagueTR/RetouchBrush/architectury26.2/showcase/player_use.gif)
+
+![Dispenser Use](https://raw.githubusercontent.com/PlagueTR/RetouchBrush/architectury26.2/showcase/dispenser_use.gif)
+
+![Settings](https://raw.githubusercontent.com/PlagueTR/RetouchBrush/architectury26.2/showcase/settings.png)
 
 ## ✅ Features
 
@@ -31,17 +32,6 @@ TODO: Add something here i guess
 - **Server-Side Only:** Install only on the server; Vanilla clients can connect without downloading anything
 - **Server Authoritive:** Prevents client-side manipulation by enforcing all logic securely on the server
 - **In-Game Configuration:** Adjust the mod's behavior directly using in-game configuration screen
-
-## Supported versions
-
-| Minecraft |  Fabric  |  Quilt   |  Forge   | NeoForge |
-|:---------:|:--------:|:--------:|:--------:|:--------:|
-|   1.20    | ✅(1.0.2) | ✅(1.0.2) | ✅(1.0.2) |    ❌     |
-
-✅ - Supported ⏳ - Planned/WIP ❌ - Unsupported
-
-Notes:  
-Latest mod version is written in parenthesis
 
 ## 📖 Usage
 
@@ -59,6 +49,17 @@ You can also edit the configuration file found in config folder manually if you 
 
 This mod should be compatible with every mod.  
 It works with mods and resource packs that add more vanilla paintings.
+
+## 🚀 Supported Versions
+
+| Minecraft |  Fabric  |  Quilt   |  Forge   | NeoForge |
+|:---------:|:--------:|:--------:|:--------:|:--------:|
+|   1.20    | ✅(1.0.2) | ✅(1.0.2) | ✅(1.0.2) |    ❌     |
+
+✅ - Supported ⏳ - Planned ❌ - Not supported
+
+Notes:  
+Latest mod version is written in parentheses
 
 [Fabric]: https://fabricmc.net
 [Quilt]: https://quiltmc.org
