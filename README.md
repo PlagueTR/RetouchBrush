@@ -30,7 +30,7 @@ Here is a little showcase!
 - **Easy Painting Cycling:** Right-click any painting with a brush to cycle through available art variants
 - **Dispenser Support:** Use a dispenser loaded with a brush to cycle through paintings
 - **Server-Side Only:** Install only on the server; Vanilla clients can connect without downloading anything
-- **Server Authoritive:** Prevents client-side manipulation by enforcing all logic securely on the server
+- **Server Authoritative:** Prevents client-side manipulation by enforcing all logic securely on the server
 - **In-Game Configuration:** Adjust the mod's behavior directly using in-game configuration screen
 
 ## 📖 Usage
