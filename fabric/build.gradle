@@ -116,6 +116,7 @@ tasks.register('curseForge', net.darkhax.curseforgegradle.TaskPublishCurseForge)
     mainFile.changelogType = "markdown"
     mainFile.releaseType = net.darkhax.curseforgegradle.Constants.RELEASE_TYPE_RELEASE
     mainFile.addGameVersion("${rootProject.minecraft_version}")
+    mainFile.addEnvironment("Server")
     mainFile.addModLoader("Fabric")
     mainFile.addModLoader("Quilt")
 
