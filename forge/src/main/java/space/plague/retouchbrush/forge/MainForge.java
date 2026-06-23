@@ -1,8 +1,7 @@
 package space.plague.retouchbrush.forge;
 
-import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 
 import space.plague.retouchbrush.Main;
@@ -13,11 +12,8 @@ public final class MainForge {
     public MainForge() {
 
         if (ModList.get().isLoaded("cloth_config")) {
-            ModLoadingContext.get().registerExtensionPoint(
-                    ConfigScreenHandler.ConfigScreenFactory.class,
-                    () -> new ConfigScreenHandler.ConfigScreenFactory(
-                            (mc, parentScreen) -> GeneralOptionsScreen.getConfigBuilder().build()
-                    )
+            MinecraftForge.registerConfigScreen(
+                (mc, parentScreen) -> GeneralOptionsScreen.getConfigBuilder().build()
             );
         }
 
