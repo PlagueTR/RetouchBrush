@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
@@ -83,7 +84,12 @@ public class MixinServerGamePacketListener {
                 LAST_INTERACTION_TICK.put(playerUUID, currentTick);
 
                 if (!player.isCreative() && config.isEnableUseDamage()) {
-                    player.getItemInHand(hand).hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
+                    if (hand == InteractionHand.MAIN_HAND) {
+                        player.getItemInHand(hand).hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                    }
+                    else {
+                        player.getItemInHand(hand).hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
+                    }
                 }
                 ci.cancel();
 

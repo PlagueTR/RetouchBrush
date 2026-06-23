@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -61,10 +62,7 @@ public class DispenserBehavior {
                     }
 
                     if (config.isEnableDispenserDamage()) {
-                        stack.hurt(1, level.random, null);
-                        if (stack.getDamageValue() >= stack.getMaxDamage()) {
-                            stack.shrink(1);
-                        }
+                        stack.hurtAndBreak(1, level.getRandom(), (ServerPlayer)null, () -> stack.shrink(1));
                     }
 
                     this.setSuccess(true);
