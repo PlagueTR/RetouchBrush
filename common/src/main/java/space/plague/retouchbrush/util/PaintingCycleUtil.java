@@ -40,7 +40,7 @@ public class PaintingCycleUtil {
                     PaintingVariant variant = holder.value();
 
                     if (keepSize) {
-                        return variant.getWidth() == currentVariant.value().getWidth() && variant.getHeight() == currentVariant.value().getHeight();
+                        return variant.width() == currentVariant.value().width() && variant.height() == currentVariant.value().height();
                     }
 
                     painting.setVariant(holder);
