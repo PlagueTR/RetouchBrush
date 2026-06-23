@@ -1,3 +1,15 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'org.commonmark:commonmark:0.29.0'
+		classpath 'org.commonmark:commonmark-ext-gfm-tables:0.29.0'
+		classpath 'org.commonmark:commonmark-ext-gfm-strikethrough:0.29.0'
+		classpath 'org.commonmark:commonmark-ext-gfm-alerts:0.29.0'
+	}
+}
+
 plugins {
 	id 'dev.architectury.loom' version "${architectury_loom_version}" apply false
 	id 'architectury-plugin' version "${architectury_plugin_version}"
@@ -73,25 +85,67 @@ tasks.register('syncReadme') {
 	group "publishing"
 
 	doLast {
-		def token = System.getenv("GITHUB_TOKEN")
-		def owner = "PlagueTR"
-		def repo = "RetouchBrush"
-		def branch = "${rootProject.branch}"
+		def readmeText = rootProject.file("README.md").text
 
-		def jsonPayload = "{\"ref\":\"${branch}\"}"
+		def modrinthToken = System.getenv("MODRINTH_TOKEN")
+		def modrinthId = "3FhtFkZt"
 
-		def process = ["curl", "-s", "-X", "POST",
-		               "https://github.com/${owner}/${repo}/actions/workflows/sync-readme.yml/dispatches",
-		               "-H", "Authorization: Bearer ${token}",
-		               "-H", "Accept: application/vnd.github+json",
-		               "-H", "X-GitHub-Api-Version: 2022-11-28",
-		               "-d", jsonPayload].execute()
-		process.waitFor()
-		if (process.exitValue() == 0) {
-			println("Success")
+		def curseForgeSession = System.getenv("CURSEFORGE_SESSION_COOKIE")
+		def curseForgeAuthors = System.getenv("CURSEFORGE_AUTHORS_USER")
+		def curseForgeId = "1583979"
+
+		def client = java.net.http.HttpClient.newHttpClient()
+
+		def modrinthPayload = [ body: readmeText.replaceAll("\r\n", "\n") ]
+		def modrinthPayloadJson = groovy.json.JsonOutput.toJson(modrinthPayload)
+
+		def modrinthURL = URI.create("https://api.modrinth.com/v2/project/${modrinthId}")
+
+		def modrinthRequest = java.net.http.HttpRequest.newBuilder()
+			.uri(modrinthURL)
+			.header("Authorization", modrinthToken)
+			.header("Content-Type", "application/json")
+			.header("User-Agent", "Gradle")
+			.method("PATCH", java.net.http.HttpRequest.BodyPublishers.ofString(modrinthPayloadJson))
+			.build()
+
+		def modrinthResponse = client.send(modrinthRequest, java.net.http.HttpResponse.BodyHandlers.ofString())
+
+		if (modrinthResponse.statusCode() != 204) {
+			throw new GradleException("Sync Readme failed for Modrinth with code ${modrinthResponse.statusCode()}: ${modrinthResponse.body()}")
 		}
-		else {
-			println("Failed, Response: ${process.text}")
+
+		def extensions = [
+			org.commonmark.ext.gfm.tables.TablesExtension.create(),
+			org.commonmark.ext.gfm.strikethrough.StrikethroughExtension.create(),
+			org.commonmark.ext.gfm.alerts.AlertsExtension.create()
+		]
+
+		def parser = org.commonmark.parser.Parser.builder().extensions(extensions).build()
+		def renderer = org.commonmark.renderer.html.HtmlRenderer.builder().extensions(extensions).build()
+		def document = parser.parse(readmeText)
+		def htmlDescription = renderer.render(document)
+
+		def curseForgePayload = [
+			description: htmlDescription,
+			descriptionType: 1
+		]
+		def curseForgePayloadJson = groovy.json.JsonOutput.toJson(curseForgePayload)
+
+		def curseForgeURL = URI.create("https://authors.curseforge.com/_api/projects/description/${curseForgeId}")
+
+		def curseForgeRequest = java.net.http.HttpRequest.newBuilder()
+			.uri(curseForgeURL)
+			.header("cookie", "CobaltSession=${curseForgeSession}; AuthorsUser=${curseForgeAuthors}")
+			.header("Content-Type", "application/json")
+			.PUT(java.net.http.HttpRequest.BodyPublishers.ofString(curseForgePayloadJson))
+			.build()
+
+		def curseForgeResponse = client.send(curseForgeRequest, java.net.http.HttpResponse.BodyHandlers.ofString())
+
+		if (curseForgeResponse.statusCode() != 200) {
+			throw new GradleException("Sync Readme failed for CurseForge with code ${curseForgeResponse.statusCode()}: ${curseForgeResponse.body()}")
 		}
+
 	}
 }

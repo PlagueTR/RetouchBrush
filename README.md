@@ -54,8 +54,8 @@ It works with mods and resource packs that add more vanilla paintings.
 
 | Minecraft |  Fabric  |  Quilt   |  Forge   | NeoForge |
 |:---------:|:--------:|:--------:|:--------:|:--------:|
-|   1.20    | ✅(1.0.2) | ✅(1.0.2) | ✅(1.0.2) |    ❌     |
 |  1.20.1   | ✅(1.0.2) | ✅(1.0.2) | ✅(1.0.2) |    ❌     |
+|   1.20    | ✅(1.0.2) | ✅(1.0.2) | ✅(1.0.2) |    ❌     |
 
 ✅ - Supported ⏳ - Planned ❌ - Not supported
 
