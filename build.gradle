@@ -75,10 +75,14 @@ githubRelease {
 	releaseName = "Retouch Brush v${rootProject.mod_version}+${rootProject.minecraft_version}"
 	body = "${rootProject.changelog}"
 
-	releaseAssets = files(
-			project(':fabric').tasks.named('remapJar'),
-			project(':forge').tasks.named('remapJar')
-	)
+	def enabledPlatformsList = rootProject.enabled_platforms.split(',').collect()
+
+	def assetsToInclude = []
+	enabledPlatformsList.each { platform ->
+		assetsToInclude << project(":${platform}").tasks.named("remapJar")
+	}
+
+	releaseAssets = files(assetsToInclude)
 }
 
 tasks.register('syncReadme') {
