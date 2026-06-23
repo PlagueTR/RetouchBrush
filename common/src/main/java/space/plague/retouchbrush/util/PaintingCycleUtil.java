@@ -28,28 +28,28 @@ public class PaintingCycleUtil {
 
     public static boolean cyclePainting(Painting painting, Level level, CycleTo cycleTo, boolean keepSize) {
 
-        Registry<PaintingVariant> registry = level.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT);
+        Registry<PaintingVariant> registry = level.registryAccess().lookupOrThrow(Registries.PAINTING_VARIANT);
         Holder<PaintingVariant> currentVariant = painting.getVariant();
 
-        List<Holder.Reference<PaintingVariant>> variants = registry.holders()
-                .filter(holder -> {
-                    if(!holder.is(PaintingVariantTags.PLACEABLE)) {
-                        return false;
-                    }
+        List<Holder.Reference<PaintingVariant>> variants = registry.listElements()
+            .filter(holder -> {
+                if(!holder.is(PaintingVariantTags.PLACEABLE)) {
+                    return false;
+                }
 
-                    PaintingVariant variant = holder.value();
+                PaintingVariant variant = holder.value();
 
-                    if (keepSize) {
-                        return variant.width() == currentVariant.value().width() && variant.height() == currentVariant.value().height();
-                    }
+                if (keepSize) {
+                    return variant.width() == currentVariant.value().width() && variant.height() == currentVariant.value().height();
+                }
 
-                    painting.setVariant(holder);
-                    boolean fits = painting.survives();
-                    painting.setVariant(currentVariant);
+                painting.setVariant(holder);
+                boolean fits = painting.survives();
+                painting.setVariant(currentVariant);
 
-                    return fits;
-                })
-                .toList();
+                return fits;
+            })
+            .toList();
 
         if (variants.isEmpty()) {
             return false;
