@@ -14,14 +14,14 @@ logoFile = "icon.png"
 
 [[dependencies.plaguesretouchbrush]]
 modId = "neoforge"
-mandatory = true
+type = "required"
 versionRange = "${neoforge_loader_version}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.plaguesretouchbrush]]
 modId = "minecraft"
-mandatory = true
+type = "required"
 versionRange = "[${minecraft_version}]"
 ordering = "NONE"
 side = "BOTH"
