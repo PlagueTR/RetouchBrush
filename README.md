@@ -41,7 +41,7 @@ Put the jar file in your mods folder and you're good to go!
 
 For [Fabric] and [Quilt] version, if you wish to be able to access the settings of the mod within the game; you will also need to put [ModMenu] and [Cloth Config API] in your mods folder.
 
-For [Forge] version, if you wish to be able to access the settings of the mod within the game; you will also need to put [Cloth Config API] in your mods folder.
+For [Forge] and [NeoForge] version, if you wish to be able to access the settings of the mod within the game; you will also need to put [Cloth Config API] in your mods folder.
 
 You can also edit the configuration file found in config folder manually if you wish to do so.
 
@@ -54,6 +54,7 @@ It works with mods and resource packs that add more vanilla paintings.
 
 | Minecraft |  Fabric  |  Quilt   |  Forge   | NeoForge |
 |:---------:|:--------:|:--------:|:--------:|:--------:|
+|  1.20.5   | ✅(1.0.2) | ✅(1.0.2) |    ❌     | ✅(1.0.2) |
 |  1.20.4   | ✅(1.0.2) | ✅(1.0.2) | ✅(1.0.2) | ✅(1.0.2) |
 |  1.20.3   |    ❌     |    ❌     |    ❌     |    ❌     |
 |  1.20.2   | ✅(1.0.2) | ✅(1.0.2) | ✅(1.0.2) | ✅(1.0.2) |
