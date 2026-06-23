@@ -1,7 +1,7 @@
 package space.plague.retouchbrush.registry;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.world.entity.decoration.Painting;
@@ -31,10 +31,10 @@ public class DispenserBehavior {
                     return super.execute(source, stack);
                 }
 
-                Level level = source.getLevel();
+                Level level = source.level();
 
-                Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
-                BlockPos targetPos = source.getPos().relative(direction);
+                Direction direction = source.blockEntity().getBlockState().getValue(DispenserBlock.FACING);
+                BlockPos targetPos = source.pos().relative(direction);
 
                 AABB searchBox = new AABB(targetPos);
                 java.util.List<Painting> paintings = level.getEntitiesOfClass(Painting.class, searchBox);
