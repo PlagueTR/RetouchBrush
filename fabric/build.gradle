@@ -53,6 +53,8 @@ dependencies {
 }
 
 processResources {
+    from(project(":common").file("src/main/resources/plaguesretouchbrush.accesswidener"))
+
     inputs.property 'mod_id', rootProject.archives_name
     inputs.property 'mod_version', rootProject.mod_version
     inputs.property 'mod_name', rootProject.mod_name

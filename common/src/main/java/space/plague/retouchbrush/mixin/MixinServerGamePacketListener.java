@@ -38,7 +38,7 @@ public class MixinServerGamePacketListener {
         packet.dispatch(new ServerboundInteractPacket.Handler() {
             @Override
             public void onInteraction(InteractionHand hand) {
-                Entity entity = packet.getTarget(player.serverLevel());
+                Entity entity = packet.getTarget(player.level());
 
                 if (!(entity instanceof Painting painting) || !player.getItemInHand(hand).is(Items.BRUSH)) {
                     return;
