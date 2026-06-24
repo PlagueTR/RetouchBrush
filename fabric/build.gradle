@@ -116,9 +116,20 @@ tasks.register('curseForge', net.darkhax.curseforgegradle.TaskPublishCurseForge)
 
     apiToken = System.getenv("CURSEFORGE_TOKEN")
 
+    def extensions = [
+            org.commonmark.ext.gfm.tables.TablesExtension.create(),
+            org.commonmark.ext.gfm.strikethrough.StrikethroughExtension.create(),
+            org.commonmark.ext.gfm.alerts.AlertsExtension.create()
+    ]
+
+    def parser = org.commonmark.parser.Parser.builder().extensions(extensions).build()
+    def renderer = org.commonmark.renderer.markdown.MarkdownRenderer.builder().extensions(extensions).build()
+    def document = parser.parse("${rootProject.changelog}")
+    def markdown = renderer.render(document)
+
     def mainFile = upload(1583979, remapJar)
     mainFile.displayName = "${rootProject.mod_version}+${rootProject.minecraft_version}-Fabric"
-    mainFile.changelog = "${rootProject.changelog}"
+    mainFile.changelog = markdown
     mainFile.changelogType = "markdown"
     mainFile.releaseType = net.darkhax.curseforgegradle.Constants.RELEASE_TYPE_RELEASE
     mainFile.addGameVersion("${rootProject.minecraft_version}")
