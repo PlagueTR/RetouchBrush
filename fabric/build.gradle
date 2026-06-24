@@ -14,18 +14,12 @@ loom{
 }
 
 configurations {
-    common {
-        canBeResolved = true
-        canBeConsumed = false
-    }
+    common
+    shadowCommon
+
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
-
-    shadowBundle {
-        canBeResolved = true
-        canBeConsumed = false
-    }
 }
 
 repositories {
@@ -33,23 +27,23 @@ repositories {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    api "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+    implementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
 
     //modImplementation "me.shedaniel:architectury-fabric:$rootProject.architectury_api_version"
 
-    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.common_cloth_config_version}") {
+    implementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.common_cloth_config_version}") {
         exclude module: "fabric-api"
     }
 
-    modImplementation("com.terraformersmc:modmenu:${rootProject.fabric_mod_menu_version}") {
+    implementation("com.terraformersmc:modmenu:${rootProject.fabric_mod_menu_version}") {
         exclude module: "fabric-api"
         transitive = false
     }
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
+    common(project(path: ':common')) { transitive = false }
+    shadowCommon(project(path: ':common', configuration: "transformProductionFabric")) { transitive = false }
 }
 
 processResources {
@@ -84,20 +78,35 @@ processResources {
     }
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+jar {
+    archiveClassifier = "raw"
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
+java {
+    withSourcesJar()
+}
+
+shadowJar {
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = null
+}
+
+configurations {
+    apiElements {
+        outgoing.artifacts.clear()
+        outgoing.artifact(shadowJar)
+    }
 }
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "retouch-brush"
     versionNumber = "${rootProject.mod_version}+${rootProject.minecraft_version}-Fabric"
-    uploadFile = remapJar
+    uploadFile = shadowJar
     gameVersions = ["${rootProject.minecraft_version}"]
     loaders = ["fabric", "quilt"]
     dependencies {
@@ -127,7 +136,7 @@ tasks.register('curseForge', net.darkhax.curseforgegradle.TaskPublishCurseForge)
     def document = parser.parse("${rootProject.changelog}")
     def markdown = renderer.render(document)
 
-    def mainFile = upload(1583979, remapJar)
+    def mainFile = upload(1583979, shadowJar)
     mainFile.displayName = "${rootProject.mod_version}+${rootProject.minecraft_version}-Fabric"
     mainFile.changelog = markdown
     mainFile.changelogType = "markdown"

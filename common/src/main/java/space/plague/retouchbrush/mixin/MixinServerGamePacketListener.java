@@ -9,7 +9,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.decoration.painting.Painting;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.phys.Vec3;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,72 +34,65 @@ public class MixinServerGamePacketListener {
 
     @Inject(method = "handleInteract(Lnet/minecraft/network/protocol/game/ServerboundInteractPacket;)V", at = @At("HEAD"), cancellable = true)
     private void handleInteract(ServerboundInteractPacket packet, CallbackInfo ci) {
-        packet.dispatch(new ServerboundInteractPacket.Handler() {
-            @Override
-            public void onInteraction(InteractionHand hand) {
-                Entity entity = packet.getTarget(player.level());
 
-                if (!(entity instanceof Painting painting) || !player.getItemInHand(hand).is(Items.BRUSH)) {
-                    return;
-                }
+        InteractionHand hand = packet.hand();
+        Entity entity = player.level().getEntity(packet.entityId());
 
-                UUID playerUUID = player.getUUID();
-                long currentTick = player.level().getGameTime();
+        if (!(entity instanceof Painting painting) || !player.getItemInHand(hand).is(Items.BRUSH)) {
+            return;
+        }
 
-                if (LAST_INTERACTION_TICK.containsKey(playerUUID)) {
-                    long lastTick = LAST_INTERACTION_TICK.get(playerUUID);
-                    if (currentTick - lastTick < 1) {
-                        ci.cancel();
-                        return;
-                    }
-                }
+        UUID playerUUID = player.getUUID();
+        long currentTick = player.level().getGameTime();
 
-                ModConfig config = Main.getConfig();
-                if (!config.isEnableMod() || !config.isEnableUseBehavior()) {
-                    return;
-                }
-
-                GameType gamemode = player.gameMode.getGameModeForPlayer();
-                if (gamemode == GameType.SPECTATOR){
-                    return;
-                }
-
-                PaintingCycleUtil.CycleTo mode;
-                try {
-                    mode = PaintingCycleUtil.CycleTo.valueOf(config.getCycleToUse());
-                } catch (IllegalArgumentException e) {
-                    Main.LOGGER.warn("[" + Main.MOD_NAME + "] Invalid painting use cycle to: " + config.getCycleToUse());
-                    Main.LOGGER.info("[" + Main.MOD_NAME + "] Setting painting use cycle to: " + PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode());
-                    config.setCycleToUse(PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode());
-                    mode = PaintingCycleUtil.CycleTo.SEQUENTIAL;
-                }
-
-                boolean success = PaintingCycleUtil.cyclePainting(painting, player.level(), mode, config.isKeepSizeUse());
-                if (!success) {
-                    ci.cancel();
-                    return;
-                }
-
-                LAST_INTERACTION_TICK.put(playerUUID, currentTick);
-
-                if (!player.isCreative() && config.isEnableUseDamage()) {
-                    if (hand == InteractionHand.MAIN_HAND) {
-                        player.getItemInHand(hand).hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-                    }
-                    else {
-                        player.getItemInHand(hand).hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
-                    }
-                }
+        if (LAST_INTERACTION_TICK.containsKey(playerUUID)) {
+            long lastTick = LAST_INTERACTION_TICK.get(playerUUID);
+            if (currentTick - lastTick < 1) {
                 ci.cancel();
-
+                return;
             }
+        }
 
-            @Override
-            public void onInteraction(InteractionHand interactionHand, Vec3 vec3) { }
+        ModConfig config = Main.getConfig();
+        if (!config.isEnableMod() || !config.isEnableUseBehavior()) {
+            return;
+        }
 
-            @Override
-            public void onAttack() { }
-        });
+        GameType gamemode = player.gameMode.getGameModeForPlayer();
+        if (gamemode == GameType.SPECTATOR){
+            return;
+        }
+
+        PaintingCycleUtil.CycleTo mode;
+        try {
+            mode = PaintingCycleUtil.CycleTo.valueOf(config.getCycleToUse());
+        } catch (IllegalArgumentException e) {
+            Main.LOGGER.warn("[" + Main.MOD_NAME + "] Invalid painting use cycle to: " + config.getCycleToUse());
+            Main.LOGGER.info("[" + Main.MOD_NAME + "] Setting painting use cycle to: " + PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode());
+            config.setCycleToUse(PaintingCycleUtil.CycleTo.SEQUENTIAL.getCode());
+            mode = PaintingCycleUtil.CycleTo.SEQUENTIAL;
+        }
+
+        boolean success = PaintingCycleUtil.cyclePainting(painting, player.level(), mode, config.isKeepSizeUse());
+
+        if (!success) {
+            ci.cancel();
+            return;
+        }
+
+        LAST_INTERACTION_TICK.put(playerUUID, currentTick);
+
+        if (!player.isCreative() && config.isEnableUseDamage()) {
+            player.swing(hand, true);
+            if (hand == InteractionHand.MAIN_HAND) {
+                player.getItemInHand(hand).hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+            }
+            else {
+                player.getItemInHand(hand).hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
+            }
+        }
+        ci.cancel();
+
     }
 
 }

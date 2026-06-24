@@ -54,6 +54,7 @@ It works with mods and resource packs that add more vanilla paintings.
 
 | Minecraft |  Fabric  |   Quilt   |   Forge   | NeoForge  |
 |:---------:|:--------:|:---------:|:---------:|:---------:|
+| **26.1**  | ✅(1.0.2) | ✅(1.0.2)⁴ |     ❌     | ✅(1.0.2)  |
 |  1.21.11  | ✅(1.0.2) | ✅(1.0.2)³ |     ❌     | ✅(1.0.2)  |
 |  1.21.10  | ✅(1.0.2) | ✅(1.0.2)  |     ❌     | ✅(1.0.2)  |
 |  1.21.9   | ✅(1.0.2) | ✅(1.0.2)  |     ❌     | ✅(1.0.2)² |
@@ -65,14 +66,14 @@ It works with mods and resource packs that add more vanilla paintings.
 |  1.21.3   | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  | ✅(1.0.2)  |
 |  1.21.2   | ✅(1.0.2) | ✅(1.0.2)  |     ❌     | ✅(1.0.2)  |
 |  1.21.1   | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  | ✅(1.0.2)  |
-|   1.21    | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  | ✅(1.0.2)  |
+| **1.21**  | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  | ✅(1.0.2)  |
 |  1.20.6   | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  | ✅(1.0.2)  |
 |  1.20.5   | ✅(1.0.2) | ✅(1.0.2)  |     ❌     | ✅(1.0.2)  |
 |  1.20.4   | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  | ✅(1.0.2)  |
 |  1.20.3   |    ❌     |     ❌     |     ❌     |     ❌     |
 |  1.20.2   | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  | ✅(1.0.2)  |
 |  1.20.1   | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  |     ❌     |
-|   1.20    | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  |     ❌     |
+| **1.20**  | ✅(1.0.2) | ✅(1.0.2)  | ✅(1.0.2)  |     ❌     |
 
 ✅ - Supported ⏳ - Planned ❌ - Not supported
 
@@ -81,6 +82,7 @@ Latest mod version is written in parentheses
 ¹: **1.21.4 [Forge]** users can use cloth config for 1.21.3 since there is no build of cloth config for 1.21.4 Forge  
 ²: **1.21.9 [NeoForge]** users should use NeoForge 21.9.15-beta or below since cloth config causes a crash on NeoForge 21.9.16-beta upon opening the mods list  
 ³: **1.21.11 [Quilt]** users should use Quilt 0.29.3-beta.1 or above since mod menu now requires Fabric 0.17.3
+⁴: **From 26.1 to 26.1.2 [Quilt]** users should use Quilt 0.30.0-beta.4 or above since mod menu now requires Fabric 0.18.4
 
 [Fabric]: https://fabricmc.net
 [Quilt]: https://quiltmc.org

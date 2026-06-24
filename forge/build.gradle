@@ -16,10 +16,9 @@ architectury {
 }
 
 configurations {
-    common {
-        canBeResolved = true
-        canBeConsumed = false
-    }
+    common
+    shadowCommon
+
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentForge.extendsFrom common
@@ -39,10 +38,10 @@ dependencies {
 
     //modImplementation "me.shedaniel:architectury-forge:$rootProject.architectury_api_version"
 
-    modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.common_cloth_config_version}")
+    implementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.common_cloth_config_version}")
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionForge')
+    common(project(path: ':common')) { transitive = false }
+    shadowCommon(project(path: ':common', configuration: "transformProductionForge")) { transitive = false }
 }
 
 processResources {
@@ -67,20 +66,28 @@ processResources {
     }
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+jar {
+    archiveClassifier = "raw"
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
+java {
+    withSourcesJar()
+}
+
+shadowJar {
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = null
 }
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "retouch-brush"
     versionNumber = "${rootProject.mod_version}+${rootProject.minecraft_version}-Forge"
-    uploadFile = remapJar
+    uploadFile = shadowJar
     gameVersions = ["${rootProject.minecraft_version}"]
     loaders = ["forge"]
     dependencies {
@@ -109,7 +116,7 @@ tasks.register('curseForge', net.darkhax.curseforgegradle.TaskPublishCurseForge)
     def document = parser.parse("${rootProject.changelog}")
     def markdown = renderer.render(document)
 
-    def mainFile = upload(1583979, remapJar)
+    def mainFile = upload(1583979, shadowJar)
     mainFile.displayName = "${rootProject.mod_version}+${rootProject.minecraft_version}-Forge"
     mainFile.changelog = markdown
     mainFile.changelogType = "markdown"
