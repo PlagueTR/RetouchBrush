@@ -9,6 +9,10 @@ architectury {
     neoForge()
 }
 
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
 configurations {
     common {
         canBeResolved = true
@@ -39,7 +43,61 @@ dependencies {
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
 
+def convertAW2AT = tasks.register("convertAW2AT") {
+    group = "build"
+
+    def inputAW = project(":common").file("src/main/resources/plaguesretouchbrush.accesswidener")
+    def outputDir = project.layout.buildDirectory.dir("generated/aw2at").get().asFile
+    def outputAT = new File(outputDir, "META-INF/accesstransformer.cfg")
+
+    inputs.file(inputAW)
+    outputs.dir(outputDir)
+
+    doLast {
+        if (!inputAW.exists()) {
+            return
+        }
+
+        outputAT.parentFile.mkdirs()
+        def atLines = ["# Do not edit manually, automatically generated from access widener"]
+
+        inputAW.eachLine { line ->
+            line = line.trim()
+            if (line.isEmpty() || line.startsWith('#') || line.startsWith('accessWidener')) {
+                return
+            }
+
+            def parts = line.split(/\s+/)
+            if (parts.length < 3) return
+
+            def type = parts[0]       // accessible, extendable, mutable
+            def target = parts[1]     // class, method, field
+            def className = parts[2].replace('/', '.') // Convert package separators
+
+            def modifier = "public"
+            if (type == "mutable") {
+                modifier = "public-f" // Removes final
+            }
+
+            if (target == "class") {
+                atLines << "${modifier} ${className}"
+            } else if (target == "field" && parts.length >= 4) {
+                def fieldName = parts[3]
+                atLines << "${modifier} ${className} ${fieldName}"
+            } else if (target == "method" && parts.length >= 5) {
+                def methodName = parts[3]
+                def methodDescriptor = parts[4]
+                atLines << "${modifier} ${className} ${methodName}${methodDescriptor}"
+            }
+        }
+
+        outputAT.text = atLines.join("\n") + "\n"
+    }
+}
+
 processResources {
+    from(convertAW2AT)
+
     inputs.property 'neoforge_loader_version', rootProject.neoforge_loader_version
     inputs.property 'mod_license', rootProject.mod_license
     inputs.property 'mod_version', rootProject.mod_version
@@ -60,7 +118,6 @@ processResources {
         ])
     }
 }
-
 
 shadowJar {
     configurations = [project.configurations.shadowBundle]

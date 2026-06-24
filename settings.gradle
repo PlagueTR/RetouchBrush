@@ -12,5 +12,5 @@ rootProject.name = 'plagues-retouch-brush'
 
 include 'common'
 include 'fabric'
-include 'forge'
+//include 'forge'
 include 'neoforge'
