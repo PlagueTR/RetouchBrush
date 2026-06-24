@@ -30,6 +30,7 @@ allprojects {
 
 subprojects {
 	apply plugin: 'dev.architectury.loom-no-remap'
+	apply plugin: 'com.gradleup.shadow'
 	apply plugin: 'architectury-plugin'
 	apply plugin: 'java'
 
@@ -66,6 +67,8 @@ subprojects {
 }
 
 githubRelease {
+	evaluationDependsOnChildren()
+
 	token = System.getenv("GITHUB_TOKEN")
 	owner = "PlagueTR"
 	repo = "RetouchBrush"
