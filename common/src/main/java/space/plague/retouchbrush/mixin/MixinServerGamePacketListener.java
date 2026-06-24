@@ -84,6 +84,7 @@ public class MixinServerGamePacketListener {
                 LAST_INTERACTION_TICK.put(playerUUID, currentTick);
 
                 if (!player.isCreative() && config.isEnableUseDamage()) {
+                    player.swing(hand, true);
                     if (hand == InteractionHand.MAIN_HAND) {
                         player.getItemInHand(hand).hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
                     }
