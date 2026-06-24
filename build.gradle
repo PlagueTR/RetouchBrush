@@ -78,7 +78,7 @@ githubRelease {
 
 	def assetsToInclude = []
 	enabledPlatformsList.each { platform ->
-		assetsToInclude << project(":${platform}").tasks.named("jar")
+		assetsToInclude << project(":${platform}").tasks.named("shadowJar")
 	}
 
 	releaseAssets = files(assetsToInclude)
