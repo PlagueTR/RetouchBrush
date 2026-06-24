@@ -76,8 +76,8 @@ It works with mods and resource packs that add more vanilla paintings.
 
 Notes:  
 Latest mod version is written in parentheses  
-¹: 1.21.4 [Forge] users can use cloth config for 1.21.3 since there is no build of cloth config for 1.21.4 Forge  
-²: 1.21.9 [NeoForge] users should use NeoForge 21.9.15-beta or below as cloth config causes a crash on NeoForge 21.9.16-beta upon opening the mods list
+¹: **1.21.4 [Forge]** users can use cloth config for 1.21.3 since there is no build of cloth config for 1.21.4 Forge  
+²: **1.21.9 [NeoForge]** users should use NeoForge 21.9.15-beta or below as cloth config causes a crash on NeoForge 21.9.16-beta upon opening the mods list
 
 [Fabric]: https://fabricmc.net
 [Quilt]: https://quiltmc.org
