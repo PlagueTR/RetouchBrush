@@ -10,8 +10,8 @@ A server-side Minecraft mod that lets you cycle through paintings using the brus
 
 This is a server-side mod that allows users to cycle through paintings using the brush.
 
-Tired of breaking and replacing paintings just to get the right piece for your living room?
-This server-side mod lets you effortlessly cycle through paintings.
+Tired of breaking and replacing paintings just to get the right piece for your living room?<br>
+This server-side mod lets you effortlessly cycle through paintings.<br>
 Simply right-click any painting with a brush to change it.
 
 You can even make a functioning TV using dispensers
@@ -26,7 +26,7 @@ Here is a little showcase!
 
 ## ✅ Features
 
-- **Multi-Loader Support:** Fully compatible with Fabric, Quilt and Forge
+- **Multi-Loader Support:** Fully compatible with Fabric, Quilt, Forge and NeoForge
 - **Easy Painting Cycling:** Right-click any painting with a brush to cycle through available art variants
 - **Dispenser Support:** Use a dispenser loaded with a brush to cycle through paintings
 - **Server-Side Only:** Install only on the server; Vanilla clients can connect without downloading anything
@@ -80,13 +80,13 @@ It works with mods and resource packs that add more vanilla paintings.
 
 ✅ - Supported ⏳ - Planned ❌ - Not supported
 
-Notes:  
-Latest mod version is written in parentheses  
-¹: **1.21.4 [Forge]** users can use cloth config for 1.21.3 since there is no build of cloth config for 1.21.4 Forge  
-²: **1.21.9 [NeoForge]** users should use NeoForge 21.9.15-beta or below since cloth config causes a crash on NeoForge 21.9.16-beta upon opening the mods list  
-³: **1.21.11 [Quilt]** users should use Quilt 0.29.3-beta.1 or above since mod menu now requires Fabric 0.17.3  
-⁴: **From 26.1 to 26.1.2 [Quilt]** users should use Quilt 0.30.0-beta.4 or above since mod menu now requires Fabric 0.18.4  
-⁵: **From 26.2 [Quilt]** users should use Quilt 0.30.0-beta.8 or above for mod menu to work
+Notes:
+- Latest mod version is written in parentheses
+- ¹: **1.21.4 [Forge]** users can use cloth config for 1.21.3 since there is no build of cloth config for 1.21.4 Forge
+- ²: **1.21.9 [NeoForge]** users should use NeoForge 21.9.15-beta or below since cloth config causes a crash on NeoForge 21.9.16-beta upon opening the mods list
+- ³: **1.21.11 [Quilt]** users should use Quilt 0.29.3-beta.1 or above since mod menu now requires Fabric 0.17.3
+- ⁴: **From 26.1 to 26.1.2 [Quilt]** users should use Quilt 0.30.0-beta.4 or above since mod menu now requires Fabric 0.18.4
+- ⁵: **From 26.2 [Quilt]** users should use Quilt 0.30.0-beta.8 or above for mod menu to work
 
 [Fabric]: https://fabricmc.net
 [Quilt]: https://quiltmc.org
